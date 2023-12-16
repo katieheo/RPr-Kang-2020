@@ -14,6 +14,6 @@ I will be working on ...
 
 ## Discussion
 
-1. This improvement is essential for addressing the overgeneralization issue and enhancing the accuracy of accessibility metrics. It will ensuresthat the study's findings are not skewed by inaccuracies in speed limit data, contributing to the overall validity of the research. The impact of speed limits on different population groups will emphasize the importance of this modification in ensuring a better understanding of healthcare resource accessibility.
+1. This improvement is essential for addressing the overgeneralization issue and enhancing the accuracy of accessibility metrics. It will ensure that the study's findings are not skewed by inaccuracies in speed limit data, contributing to the overall validity of the research. The impact of speed limits on different population groups will emphasize the importance of this modification in ensuring a better understanding of healthcare resource accessibility.
 
 2. The introduction of AWR may contribute to the study's internal validity and provide a more accurate representation of healthcare resource accessibility. This modification may help in overcoming uncertainties and improving the accuracy of accessibility maps. 
