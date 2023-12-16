@@ -14568,10 +14568,10 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <h2 id="Title:-Reproduction-of-Spatial-Accessibility-of-COVID-19-Healthcare-Resources-in-Illinois">Title: Reproduction of Spatial Accessibility of COVID-19 Healthcare Resources in Illinois<a class="anchor-link" href="#Title:-Reproduction-of-Spatial-Accessibility-of-COVID-19-Healthcare-Resources-in-Illinois">&#182;</a></h2><p><strong>Reproduction of</strong>: Rapidly measuring spatial accessibility of COVID-19 healthcare resources: a case study of Illinois, USA</p>
 <p>Original study <em>by</em> Kang, J. Y., A. Michels, F. Lyu, Shaohua Wang, N. Agbodo, V. L. Freeman, and Shaowen Wang. 2020. Rapidly measuring spatial accessibility of COVID-19 healthcare resources: a case study of Illinois, USA. International Journal of Health Geographics 19 (1):1–17. DOI:<a href="https://ij-healthgeographics.biomedcentral.com/articles/10.1186/s12942-020-00229-x">10.1186/s12942-020-00229-x</a>.</p>
 <p>Reproduction Authors: Joe Holler, Derrick Burt, and Kufre Udoh
-With contributions from Peter Kedron, Drew An-Pham, and the Spring 2021 Open Source GIScience class at Middlebury</p>
+With contributions from Peter Kedron, Drew An-Pham, Katie Heo, and the Spring 2021 Open Source GIScience class at Middlebury</p>
 <p>Reproduction Materials Available at: <a href="https://github.com/HEGSRR/RPr-Kang-2020">github.com/HEGSRR/RPr-Kang-2020</a></p>
 <p>Created: <code>2021-06-01</code>
-Revised: <code>2023-11-30</code> by Katie Heo, Middlebury College</p>
+Revised: <code>2023-12-16</code> by Katie Heo, Middlebury College</p>
 
 </div>
 </div>
@@ -15842,6 +15842,7 @@ Wall time: 30 s
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h3 id="network_setting-function">network_setting function<a class="anchor-link" href="#network_setting-function">&#182;</a></h3><p>Cleans the OSMNX network to work better with drive-time analysis.</p>
 <p>First, we remove all nodes with 0 outdegree because any hospital assigned to such a node would be unreachable from everywhere. Next, we remove small (under 10 node) <em>strongly connected components</em> to reduce erroneously small ego-centric networks. Lastly, we ensure that the max speed is set and in the correct units before calculating time.</p>
+<p>Replacing the network_setting using the osmnx.speed module will help refine the accuracy of the speed limit information in the transportation network model. This modification will allow for a more realistic representation of road speeds, impacting the overall accuracy of accessibility results.</p>
 <p>Args:</p>
 <ul>
 <li>network: OSMNX network for the spatial extent of interest</li>
@@ -16031,18 +16032,13 @@ Compare to the previous results.</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[33]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[59]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%time</span>
 <span class="c1">## Get unique counts for each road network</span>
 <span class="c1"># Turn nodes and edges in geodataframes</span>
 <span class="n">nodes</span><span class="p">,</span> <span class="n">edges</span> <span class="o">=</span> <span class="n">ox</span><span class="o">.</span><span class="n">graph_to_gdfs</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">nodes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">edges</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-<span class="c1"># Make sure OSMNX adds speeds + travel times in the graph</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">edges</span><span class="p">[</span><span class="s1">&#39;speed_kph&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">edges</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot; edges in graph&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">edges</span><span class="p">[</span><span class="s1">&#39;travel_time&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">())</span>
 </pre></div>
 
      </div>
@@ -16064,73 +16060,8 @@ Compare to the previous results.</p>
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>37.6     284945
-47.8      29239
-56.9      27968
-60.7       8894
-40.2       6800
-48.3       4873
-56.3       4803
-32.2       3809
-64.4       2841
-41.5       2435
-72.4       2423
-83.2       2242
-88.5        867
-52.8        460
-96.6        290
-80.5        287
-89.0        257
-29.5        243
-67.7        162
-46.7        145
-24.1        107
-112.7        70
-68.0         54
-16.1         44
-64.0         39
-60.0         38
-52.0         36
-80.0         31
-25.0         28
-104.6        25
-45.3         24
-44.0         19
-76.0         19
-56.0         11
-36.0          8
-48.0          8
-84.0          5
-72.0          5
-92.0          5
-100.0         5
-20.0          4
-32.0          4
-104.0         4
-96.0          3
-53.0          2
-71.0          2
-69.0          2
-8.0           2
-45.0          2
-40.0          1
-19.0          1
-Name: speed_kph, dtype: int64
-384591 edges in graph
-9.7      13536
-9.6      11889
-19.4      7468
-19.3      6568
-9.8       6517
-         ...  
-106.3        1
-126.4        1
-86.4         1
-180.9        1
-158.1        1
-Name: travel_time, Length: 1212, dtype: int64
-CPU times: user 31.3 s, sys: 97.4 ms, total: 31.4 s
-Wall time: 31.3 s
+<pre>CPU times: user 31.5 s, sys: 15.6 ms, total: 31.5 s
+Wall time: 31.4 s
 </pre>
 </div>
 </div>
@@ -16162,7 +16093,7 @@ Wall time: 31.3 s
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[34]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[58]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">hospital_setting</span><span class="p">(</span><span class="n">hospitals</span><span class="p">,</span> <span class="n">G</span><span class="p">):</span>
@@ -17892,7 +17823,7 @@ Wall time: 1.73 s
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h3 id="Results-&amp;-Discussion">Results &amp; Discussion<a class="anchor-link" href="#Results-&amp;-Discussion">&#182;</a></h3><p>The modifications introduced in this reanalysis shed light on key aspects of healthcare resource accessibility in Illinois. Notable changes were observed in the Classified Accessibility Map, particularly when considering different settings such as buffered areas, populations over 50 (pop50), and ICU beds. The zone of highest accessibility expanded, revealing that more healthcare resources were accessible to a larger population than initially assumed in the reproduction. Altering the setting to "COVID patients" reinforced the assumption that hospital beds and ventilators exhibit high correlation in influencing accessibility. The lack of substantial changes for COVID-19 patients suggests that the modifications might be more relevant for the population over 50, prompting further investigation into the relationship between the expanded road network and its impact on COVID patient data.</p>
-<p>Expanding the road network beyond Chicago's limits, coupled with improved road speed dataset accuracy, played a pivotal role in the observed larger zones of accessibility. The expansion likely accommodated individuals residing outside the city who might access healthcare facilities within city boundaries. The modification of the speed limit dataset, using more accurate values based on road types, contributed to enhanced content validity, rectifying the initial overgeneralization issue. The improved speed limit data, with segments ranging from 25 mph to 60-70 mph, showcased a more nuanced representation of road speeds, impacting the overall accuracy of accessibility results.</p>
+<p>Expanding the road network beyond Chicago's limits, coupled with improved road speed dataset accuracy, played a pivotal role in the observed larger zones of accessibility. The expansion likely accommodated individuals residing outside the city who might access healthcare facilities within city boundaries. The modification of the speed limit dataset, using more accurate values based on road types, contributed to enhanced construct validity, rectifying the initial overgeneralization issue. The improved speed limit data, with segments ranging from 25 mph to 60-70 mph, showcased a more nuanced representation of road speeds, impacting the overall accuracy of accessibility results.</p>
 <p>Implementation of Area Weighted Aggregation (AWR) in place of the 50% threshold from the original study and reproduction addressed uncertainties, offering a more refined representation in the hexagonal grid. This change not only improved the study's internal validity but also contributed to the observed increase in accessibility across various zones. The shift from a binary assessment of overlap to a more nuanced, weighted approach allowed for a more accurate depiction of accessibility.</p>
 <p>However, despite the improvements, geographic threats to validity persist. The study grapples with partition distortion arising from hexagonal grid division and simplification of population data to centroids. A continued lack of consideration for multimodal transit introduces assumptions about patient transportation, potentially impacting accessibility results.</p>
 <p>Additionally, the study remains susceptible to space-time limitations that assume standard speed limits for travel time calculations. Ambulance transport, traffic priority, and traffic variations introduce potential biases. These challenges underline the need for ongoing refinement in the methodology to enhance the study's overall validity.</p>
@@ -17905,7 +17836,7 @@ Wall time: 1.73 s
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="Conclusion">Conclusion<a class="anchor-link" href="#Conclusion">&#182;</a></h3><p>In conclusion, our reanalysis of Kang et al. 2020 has significantly contributed to refining the original study, addressing key issues, and enhancing its reproducibility and validity. One major improvement focused on mitigating the threat of partition distortion inherent in the hexagonal grid representation of the study area. Our findings suggest that further investigation into the impact of varying hexagon sizes on distortion and spatial accessibility could provide valuable insights, promoting a more accurate representation of healthcare resource accessibility.</p>
+<h3 id="Conclusion">Conclusion<a class="anchor-link" href="#Conclusion">&#182;</a></h3><p>In conclusion, our reanalysis of Kang et al. 2020 has significantly contributed to refining the original study, addressing key issues, and enhancing its reproducibility and validity. One major improvement focused on mitigating the threat of partition distortion inherent in the hexagonal grid representation of the study area. Our findings suggest that further investigation into the impact of varying hexagon sizes on distortion and spatial accessibility could provide valuable insights, promoting a more accurate representation of healthcare resource accessibility. Moreover, it is important to understand that while the results are more precise in our study than the original results, the overall accessibility does not change drastically.</p>
 <p>Expanding the scope of the study, we recognized the limitation of relying solely on a transportation network based on personal vehicles. The study's assumption neglects significant portions of the population that depend on alternative modes of transportation such as public transit, walking, or biking. To bolster the study's applicability, we recommend incorporating a more diverse transportation network to better capture accessibility patterns, especially among underserved low-income populations.</p>
 <p>Additionally, the modification addressing the time-space threat to validity introduced a more nuanced understanding of how traffic congestion at different times of the day influences access to healthcare resources. Incorporating traffic data allowed for a more accurate estimation of travel times along busy road segments, shedding light on temporal variations in accessibility.</p>
 <p>The introduction of speed limit adjustments in our reanalysis further bolstered the validity of the study, specifically enhancing the accuracy of speed limit data. Notably, this modification influenced the spatial accessibility results for the population over 50, highlighting the importance of considering variations in speed limits, especially in residential areas. Caution should be exercised when interpreting the original study results, as they may have wrongly inflated accessibility metrics due to higher default speed limits.</p>
